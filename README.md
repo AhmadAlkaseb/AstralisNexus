@@ -1,5 +1,5 @@
 # Astralis Nexus
-### Projektdeltagere
+### Projektmedlemmer
 **Ahmad**  
 cph-aa540@cphbusiness.dk  
 @AhmadAlkaseb  
