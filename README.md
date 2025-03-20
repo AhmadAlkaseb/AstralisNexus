@@ -1,4 +1,4 @@
-# Astralis
+# Astralis Nexus
 ### Projektdeltagere
 **Ahmad**  
 cph-aa540@cphbusiness.dk  
