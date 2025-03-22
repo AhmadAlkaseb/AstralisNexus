@@ -1,85 +1,85 @@
-package daos;
+package dao;
 
 import jakarta.persistence.*;
-import persistence.model.Header;
+import persistence.model.QA;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class HeaderDAO implements IDAO<Header> {
+public class QADAO implements IDAO<QA> {
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     private static String timestamp = dateFormat.format(new Date());
 
-    private static HeaderDAO instance;
+    private static QADAO instance;
     private static EntityManagerFactory emf;
 
-    public static HeaderDAO getInstance(EntityManagerFactory _emf) {
+    public static QADAO getInstance(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new HeaderDAO();
+            instance = new QADAO();
         }
         return instance;
     }
 
     @Override
-    public List<Header> getAll() {
+    public List<QA> getAll() {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Header> query = em.createQuery("SELECT h FROM Header h", Header.class);
+            TypedQuery<QA> query = em.createQuery("SELECT q FROM QA q", QA.class);
             return query.getResultList();
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException(timestamp + ": " + "No headers found.");
+            throw new EntityNotFoundException(timestamp + ": " + "No QAs found.");
         }
     }
 
     @Override
-    public Header getById(int id) {
+    public QA getById(int id) {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Header> query = em.createQuery("SELECT h FROM Header h WHERE h.id = :id", Header.class);
+            TypedQuery<QA> query = em.createQuery("SELECT q FROM QA q WHERE q.id = :id", QA.class);
             query.setParameter("id", id);
             return query.getSingleResult();
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException(timestamp + ": " + "No headers found with the following id: " + id);
+            throw new EntityNotFoundException(timestamp + ": " + "No QAs found with the following id: " + id);
         }
     }
 
     @Override
-    public Header create(Header header) {
+    public QA create(QA qa) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.persist(header);
+            em.persist(qa);
             em.getTransaction().commit();
-            return header;
+            return qa;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error persisting header.");
+            throw new PersistenceException(timestamp + ": " + "Error persisting QAs.");
         }
     }
 
     @Override
-    public Header update(Header header) {
+    public QA update(QA qa) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.merge(header);
+            em.merge(qa);
             em.getTransaction().commit();
-            return header;
+            return qa;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error updating header.");
+            throw new PersistenceException(timestamp + ": " + "Error updating QAs.");
         }
     }
 
     @Override
-    public Header delete(int id) {
+    public QA delete(int id) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            Header header = em.find(Header.class, id);
-            if (header != null) {
-                em.remove(header);
+            QA qa = em.find(QA.class, id);
+            if (qa != null) {
+                em.remove(qa);
                 em.getTransaction().commit();
             }
-            return header;
+            return qa;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error deleting account.");
+            throw new PersistenceException(timestamp + ": " + "Error QAs account.");
         }
     }
 }

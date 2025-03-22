@@ -1,85 +1,85 @@
-package daos;
+package dao;
 
 import jakarta.persistence.*;
-import persistence.model.License;
+import persistence.model.Account;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class LicenseDAO implements IDAO<License> {
+public class AccountDAO implements IDAO<Account> {
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     private static String timestamp = dateFormat.format(new Date());
 
-    private static LicenseDAO instance;
+    private static AccountDAO instance;
     private static EntityManagerFactory emf;
 
-    public static LicenseDAO getInstance(EntityManagerFactory _emf) {
+    public static AccountDAO getInstance(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new LicenseDAO();
+            instance = new AccountDAO();
         }
         return instance;
     }
 
     @Override
-    public List<License> getAll() {
+    public List<Account> getAll() {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<License> query = em.createQuery("SELECT l FROM License l", License.class);
+            TypedQuery<Account> query = em.createQuery("SELECT a FROM Account a", Account.class);
             return query.getResultList();
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException(timestamp + ": " + "No licenses found.");
+            throw new EntityNotFoundException(timestamp + ": " + "No accounts found.");
         }
     }
 
     @Override
-    public License getById(int id) {
+    public Account getById(int id) {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<License> query = em.createQuery("SELECT l FROM License l WHERE l.id = :id", License.class);
+            TypedQuery<Account> query = em.createQuery("SELECT a FROM Account a WHERE a.id = :id", Account.class);
             query.setParameter("id", id);
             return query.getSingleResult();
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException(timestamp + ": " + "No license found with the following id: " + id);
+            throw new EntityNotFoundException(timestamp + ": " + "No account found with the following id: " + id);
         }
     }
 
     @Override
-    public License create(License license) {
+    public Account create(Account account) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.persist(license);
+            em.persist(account);
             em.getTransaction().commit();
-            return license;
+            return account;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error persisting license.");
+            throw new PersistenceException(timestamp + ": " + "Error persisting account.");
         }
     }
 
     @Override
-    public License update(License license) {
+    public Account update(Account account) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.merge(license);
+            em.merge(account);
             em.getTransaction().commit();
-            return license;
+            return account;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error updating license.");
+            throw new PersistenceException(timestamp + ": " + "Error updating account.");
         }
     }
 
     @Override
-    public License delete(int id) {
+    public Account delete(int id) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            License license = em.find(License.class, id);
-            if (license != null) {
-                em.remove(license);
+            Account account = em.find(Account.class, id);
+            if (account != null) {
+                em.remove(account);
                 em.getTransaction().commit();
             }
-            return license;
+            return account;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error license account.");
+            throw new PersistenceException(timestamp + ": " + "Error deleting account.");
         }
     }
 }

@@ -1,85 +1,85 @@
-package daos;
+package dao;
 
 import jakarta.persistence.*;
-import persistence.model.Role;
+import persistence.model.Game;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class RoleDAO implements IDAO<Role> {
+public class GameDAO implements IDAO<Game> {
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     private static String timestamp = dateFormat.format(new Date());
 
-    private static RoleDAO instance;
+    private static GameDAO instance;
     private static EntityManagerFactory emf;
 
-    public static RoleDAO getInstance(EntityManagerFactory _emf) {
+    public static GameDAO getInstance(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new RoleDAO();
+            instance = new GameDAO();
         }
         return instance;
     }
 
     @Override
-    public List<Role> getAll() {
+    public List<Game> getAll() {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Role> query = em.createQuery("SELECT r FROM Role r", Role.class);
+            TypedQuery<Game> query = em.createQuery("SELECT g FROM Game g", Game.class);
             return query.getResultList();
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException(timestamp + ": " + "No roles found.");
+            throw new EntityNotFoundException(timestamp + ": " + "No games found.");
         }
     }
 
     @Override
-    public Role getById(int id) {
+    public Game getById(int id) {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Role> query = em.createQuery("SELECT r FROM Role r WHERE r.id = :id", Role.class);
+            TypedQuery<Game> query = em.createQuery("SELECT g FROM Game g WHERE g.id = :id", Game.class);
             query.setParameter("id", id);
             return query.getSingleResult();
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException(timestamp + ": " + "No roles found with the following id: " + id);
+            throw new EntityNotFoundException(timestamp + ": " + "No games found with the following id: " + id);
         }
     }
 
     @Override
-    public Role create(Role role) {
+    public Game create(Game game) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.persist(role);
+            em.persist(game);
             em.getTransaction().commit();
-            return role;
+            return game;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error persisting role.");
+            throw new PersistenceException(timestamp + ": " + "Error persisting game.");
         }
     }
 
     @Override
-    public Role update(Role role) {
+    public Game update(Game game) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.merge(role);
+            em.merge(game);
             em.getTransaction().commit();
-            return role;
+            return game;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error updating roles.");
+            throw new PersistenceException(timestamp + ": " + "Error updating game.");
         }
     }
 
     @Override
-    public Role delete(int id) {
+    public Game delete(int id) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            Role role = em.find(Role.class, id);
-            if (role != null) {
-                em.remove(role);
+            Game game = em.find(Game.class, id);
+            if (game != null) {
+                em.remove(game);
                 em.getTransaction().commit();
             }
-            return role;
+            return game;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error roles account.");
+            throw new PersistenceException(timestamp + ": " + "Error deleting game.");
         }
     }
 }

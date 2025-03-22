@@ -1,85 +1,85 @@
-package daos;
+package dao;
 
 import jakarta.persistence.*;
-import persistence.model.QA;
+import persistence.model.Role;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class QADAO implements IDAO<QA> {
+public class RoleDAO implements IDAO<Role> {
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     private static String timestamp = dateFormat.format(new Date());
 
-    private static QADAO instance;
+    private static RoleDAO instance;
     private static EntityManagerFactory emf;
 
-    public static QADAO getInstance(EntityManagerFactory _emf) {
+    public static RoleDAO getInstance(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new QADAO();
+            instance = new RoleDAO();
         }
         return instance;
     }
 
     @Override
-    public List<QA> getAll() {
+    public List<Role> getAll() {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<QA> query = em.createQuery("SELECT q FROM QA q", QA.class);
+            TypedQuery<Role> query = em.createQuery("SELECT r FROM Role r", Role.class);
             return query.getResultList();
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException(timestamp + ": " + "No QAs found.");
+            throw new EntityNotFoundException(timestamp + ": " + "No roles found.");
         }
     }
 
     @Override
-    public QA getById(int id) {
+    public Role getById(int id) {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<QA> query = em.createQuery("SELECT q FROM QA q WHERE q.id = :id", QA.class);
+            TypedQuery<Role> query = em.createQuery("SELECT r FROM Role r WHERE r.id = :id", Role.class);
             query.setParameter("id", id);
             return query.getSingleResult();
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException(timestamp + ": " + "No QAs found with the following id: " + id);
+            throw new EntityNotFoundException(timestamp + ": " + "No roles found with the following id: " + id);
         }
     }
 
     @Override
-    public QA create(QA qa) {
+    public Role create(Role role) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.persist(qa);
+            em.persist(role);
             em.getTransaction().commit();
-            return qa;
+            return role;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error persisting QAs.");
+            throw new PersistenceException(timestamp + ": " + "Error persisting role.");
         }
     }
 
     @Override
-    public QA update(QA qa) {
+    public Role update(Role role) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.merge(qa);
+            em.merge(role);
             em.getTransaction().commit();
-            return qa;
+            return role;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error updating QAs.");
+            throw new PersistenceException(timestamp + ": " + "Error updating roles.");
         }
     }
 
     @Override
-    public QA delete(int id) {
+    public Role delete(int id) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            QA qa = em.find(QA.class, id);
-            if (qa != null) {
-                em.remove(qa);
+            Role role = em.find(Role.class, id);
+            if (role != null) {
+                em.remove(role);
                 em.getTransaction().commit();
             }
-            return qa;
+            return role;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error QAs account.");
+            throw new PersistenceException(timestamp + ": " + "Error roles account.");
         }
     }
 }

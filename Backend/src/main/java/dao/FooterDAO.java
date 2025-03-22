@@ -1,83 +1,83 @@
-package daos;
+package dao;
 
 import jakarta.persistence.*;
-import persistence.model.Information;
+import persistence.model.Footer;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class InformationDAO implements IDAO<Information> {
+public class FooterDAO implements IDAO<Footer> {
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     private static String timestamp = dateFormat.format(new Date());
 
-    private static InformationDAO instance;
+    private static FooterDAO instance;
     private static EntityManagerFactory emf;
 
-    public static InformationDAO getInstance(EntityManagerFactory _emf) {
+    public static FooterDAO getInstance(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new InformationDAO();
+            instance = new FooterDAO();
         }
         return instance;
     }
 
     @Override
-    public List<Information> getAll() {
+    public List<Footer> getAll() {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Information> query = em.createQuery("SELECT i FROM Information i", Information.class);
+            TypedQuery<Footer> query = em.createQuery("SELECT f FROM Footer f", Footer.class);
             return query.getResultList();
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException(timestamp + ": " + "No information found.");
+            throw new EntityNotFoundException(timestamp + ": " + "No footers found.");
         }
     }
 
     @Override
-    public Information getById(int id) {
+    public Footer getById(int id) {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Information> query = em.createQuery("SELECT i FROM Information i WHERE i.id = :id", Information.class);
+            TypedQuery<Footer> query = em.createQuery("SELECT f FROM Footer f WHERE f.id = :id", Footer.class);
             query.setParameter("id", id);
             return query.getSingleResult();
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException(timestamp + ": " + "No information found with the following id: " + id);
+            throw new EntityNotFoundException(timestamp + ": " + "No footer found with the following id: " + id);
         }
     }
 
     @Override
-    public Information create(Information information) {
+    public Footer create(Footer footer) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.persist(information);
+            em.persist(footer);
             em.getTransaction().commit();
-            return information;
+            return footer;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error persisting information.");
+            throw new PersistenceException(timestamp + ": " + "Error persisting footer.");
         }
     }
 
     @Override
-    public Information update(Information information) {
+    public Footer update(Footer footer) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.merge(information);
+            em.merge(footer);
             em.getTransaction().commit();
-            return information;
+            return footer;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error updating information.");
+            throw new PersistenceException(timestamp + ": " + "Error updating footer.");
         }
     }
 
     @Override
-    public Information delete(int id) {
+    public Footer delete(int id) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            Information information = em.find(Information.class, id);
-            if (information != null) {
-                em.remove(information);
+            Footer footer = em.find(Footer.class, id);
+            if (footer != null) {
+                em.remove(footer);
                 em.getTransaction().commit();
             }
-            return information;
+            return footer;
         } catch (PersistenceException e) {
             throw new PersistenceException(timestamp + ": " + "Error deleting account.");
         }

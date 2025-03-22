@@ -1,85 +1,85 @@
-package daos;
+package dao;
 
 import jakarta.persistence.*;
-import persistence.model.Todo;
+import persistence.model.License;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class TodoDAO implements IDAO<Todo> {
+public class LicenseDAO implements IDAO<License> {
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     private static String timestamp = dateFormat.format(new Date());
 
-    private static TodoDAO instance;
+    private static LicenseDAO instance;
     private static EntityManagerFactory emf;
 
-    public static TodoDAO getInstance(EntityManagerFactory _emf) {
+    public static LicenseDAO getInstance(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new TodoDAO();
+            instance = new LicenseDAO();
         }
         return instance;
     }
 
     @Override
-    public List<Todo> getAll() {
+    public List<License> getAll() {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Todo> query = em.createQuery("SELECT t FROM Todo t", Todo.class);
+            TypedQuery<License> query = em.createQuery("SELECT l FROM License l", License.class);
             return query.getResultList();
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException(timestamp + ": " + "No todos found.");
+            throw new EntityNotFoundException(timestamp + ": " + "No licenses found.");
         }
     }
 
     @Override
-    public Todo getById(int id) {
+    public License getById(int id) {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Todo> query = em.createQuery("SELECT t FROM Todo t WHERE t.id = :id", Todo.class);
+            TypedQuery<License> query = em.createQuery("SELECT l FROM License l WHERE l.id = :id", License.class);
             query.setParameter("id", id);
             return query.getSingleResult();
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException(timestamp + ": " + "No todos found with the following id: " + id);
+            throw new EntityNotFoundException(timestamp + ": " + "No license found with the following id: " + id);
         }
     }
 
     @Override
-    public Todo create(Todo todo) {
+    public License create(License license) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.persist(todo);
+            em.persist(license);
             em.getTransaction().commit();
-            return todo;
+            return license;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error persisting todos.");
+            throw new PersistenceException(timestamp + ": " + "Error persisting license.");
         }
     }
 
     @Override
-    public Todo update(Todo todo) {
+    public License update(License license) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.merge(todo);
+            em.merge(license);
             em.getTransaction().commit();
-            return todo;
+            return license;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error updating todos.");
+            throw new PersistenceException(timestamp + ": " + "Error updating license.");
         }
     }
 
     @Override
-    public Todo delete(int id) {
+    public License delete(int id) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            Todo todo = em.find(Todo.class, id);
-            if (todo != null) {
-                em.remove(todo);
+            License license = em.find(License.class, id);
+            if (license != null) {
+                em.remove(license);
                 em.getTransaction().commit();
             }
-            return todo;
+            return license;
         } catch (PersistenceException e) {
-            throw new PersistenceException(timestamp + ": " + "Error todos account.");
+            throw new PersistenceException(timestamp + ": " + "Error license account.");
         }
     }
 }
