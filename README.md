@@ -18,3 +18,9 @@ cph-se160@cphbusiness.dk
 
 **Domænemodel**  
 [Tryk her](https://github.com/AhmadAlkaseb/AstralisNexus/blob/main/Backend/documentation/domain-model.puml)
+
+**Figma: Skitse**  
+[Tryk her](https://www.figma.com/design/1cjxtehlyZ9ZqKMqWU1Evl/Admin-Panel?node-id=0-1&p=f&t=yEworXAqW4bVtWBq-0)
+
+**Figma: Design**  
+[Tryk her](https://www.figma.com/design/1cjxtehlyZ9ZqKMqWU1Evl/Admin-Panel?node-id=97-3&p=f&t=yEworXAqW4bVtWBq-0)
