@@ -1,6 +1,6 @@
 # Problemformulering
 
-Virksomheden ønsker at udvikle et internt admin-panel, der skal erstatte deres nuværende løsning i Google Drive, som ofte fører til tab af information. Panelet skal gøre det lettere for medarbejdere at administrere udlånte konti, bookinger, adgangskoder samt dagens to-do-liste og eventuelt andre administrative opgaver.
+Virksomheden ønsker at udvikle et internt admin-panel, der skal erstatte deres nuværende løsning i Google Drive, som ofte fører til tab af information. Panelet skal gøre det lettere for medarbejdere at administrere udlånte konti, adgangskoder samt dagens to-do-liste og eventuelt andre administrative opgaver.
 
 Løsningen skal bestå af:
 - En **PostgreSQL-database** til sikker og struktureret lagring af data.
