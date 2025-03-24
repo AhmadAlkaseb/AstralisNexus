@@ -8,10 +8,13 @@ cph-aa540@cphbusiness.dk
 cph-se160@cphbusiness.dk  
 @sumaiak  
 
-### Links
+### Nyttige links
 
 **Gruppekontrakt**  
 [Tryk her](https://github.com/AhmadAlkaseb/AstralisNexus/blob/main/Documentation/group-contract.md)
 
 **Problemformulering**  
-[Tryk her](https://github.com/dat3Cph/material/blob/sem2024spring/flowFrontend/week5-project/miniproject.md)
+[Tryk her](https://github.com/AhmadAlkaseb/AstralisNexus/blob/main/Documentation/problem%20formulation.md)
+
+**Domænemodel**  
+[Tryk her](https://github.com/AhmadAlkaseb/AstralisNexus/blob/main/Backend/documentation/domain-model.puml)
