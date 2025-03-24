@@ -21,5 +21,4 @@ public class QA {
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
-
 }
