@@ -2,11 +2,11 @@
 ### Projektmedlemmer
 **Ahmad**  
 cph-aa540@cphbusiness.dk  
-@AhmadAlkaseb  
+[@AhmadAlkaseb](https://github.com/AhmadAlkaseb)
 
 **Sumaia**  
 cph-se160@cphbusiness.dk  
-@sumaiak  
+[@sumaiak](https://github.com/sumaiak)
 
 ### Nyttige links
 
